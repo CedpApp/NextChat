@@ -14,18 +14,18 @@ export async function requestOpenai(req: NextRequest) {
   var authValue,
     authHeaderName = "";
   if (isAzure) {
-    authValue =
-      req.headers
-        .get("Authorization")
-        ?.trim()
-        .replaceAll("Bearer ", "")
-        .trim() ?? "";
+  authValue =
+    req.headers
+      .get("Authorization")
+      ?.trim()
+      .replaceAll("Bearer ", "")
+      .trim() ?? "";
 
-    authHeaderName = "api-key";
-  } else {
-    authValue = process.env.OPENAI_API_KEY || req.headers.get("Authorization") || "";
-    authHeaderName = "Authorization";
-  }
+  authHeaderName = "api-key";
+} else {
+  authValue = serverConfig.apiKey || req.headers.get("Authorization") || "";
+  authHeaderName = "Authorization";
+}
 
   let path = `${req.nextUrl.pathname}`.replaceAll("/api/openai/", "");
 
